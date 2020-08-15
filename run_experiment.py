@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import yaml
 import logging
+import json
 
 from models import *
 import utils
@@ -66,9 +67,10 @@ for model in config:
 			logger.info('Estimating dev set')
 			score = classifier.score(validation_X, validation_Y)
 			logger.info('Score: %.2f' % score)
-			model_scores[tuple(model_args)] = {'model': classifier, 'score':score, 'parameters': model_args}
+			model_args_string = ', '.join(model_args)
+			model_scores[model_args_string] = {'model': classifier, 'score':score, 'parameters': model_args}
 
-		sorted_scores = sorted(model_scores.items, key= lambda x: x[1]['score'])
+		sorted_scores = sorted(model_scores.items(), key= lambda x: x[1]['score'])
 		best_model_score = sorted_scores[0][1]['score']
 		best_model_args = sorted_scores[0][0]
 
