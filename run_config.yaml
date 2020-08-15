@@ -1,0 +1,5 @@
+SVC:
+  C: [1, 2, 4]
+  kernel: ['rbf', 'linear', 'sigmoid']
+BLABLA:
+  
