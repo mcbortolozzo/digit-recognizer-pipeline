@@ -88,7 +88,7 @@ for model in config:
 			logger.info("Average validation score: %.3f" % (average_score))
 			logger.info('---------------------------------------------------')
 
-			model_args_string = ', '.join(model_args)
+			model_args_string = ', '.join([str(x) for x in model_args.values()])
 			model_scores[model_args_string] = best_model
 
 		sorted_scores = sorted(model_scores.items(), key= lambda x: x[1]['average_validation_score'], reverse=True)
