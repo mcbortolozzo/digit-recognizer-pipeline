@@ -76,7 +76,7 @@ for model in config:
 				classifier.train_model(train_X, train_Y)
 				logger.info('Estimating dev set')
 				score = classifier.score(validation_X, validation_Y)
-				logger.info('Score: %.2f' % score)
+				logger.info('Score: %.3f' % score)
 				
 				average_score += score
 
@@ -85,7 +85,7 @@ for model in config:
 
 			average_score /= args.runs
 			best_model['average_validation_score'] = average_score
-			logger.info("Average validation score: %.2f" % (average_score))
+			logger.info("Average validation score: %.3f" % (average_score))
 			logger.info('---------------------------------------------------')
 
 			model_args_string = ', '.join(model_args)
@@ -93,9 +93,9 @@ for model in config:
 
 		sorted_scores = sorted(model_scores.items(), key= lambda x: x[1]['average_validation_score'], reverse=True)
 		best_model_score = sorted_scores[0][1]['average_validation_score']
-		best_model_args = sorted_scores[0][0]
+		best_model_args = sorted_scores[0][1]['parameters']
 
-		logger.info('Best %s result: %.2f with args: %s' % (model, best_model_score, best_model_args))
+		logger.info('Best %s result: %.3f with args: %s' % (model, best_model_score, best_model_args))
 		logger.info('===================================================')
 		best_model_configs.append(sorted_scores[0][1])
 		validation_scores[model] = model_scores
@@ -104,10 +104,10 @@ for model in config:
 for model in best_model_configs:
 	logger.info("Running Test set for %s" % model['type'])
 	model['test_score'] = model['classifier'].score(test_X, test_Y)
-	logger.info("Test score for %s model: %.2f" % (model['type'], model['test_score']))
+	logger.info("Test score for %s model: %.3f" % (model['type'], model['test_score']))
 
 sorted_test_scores = sorted(best_model_configs, key=lambda x: x['test_score'], reverse=True)
 
 logger.info("Final Model Test Scores:")
 for model in sorted_test_scores:
-	logger.info("%s - %.2f" % (model['type'], model['test_score']))
+	logger.info("%s - %.3f" % (model['type'], model['test_score']))
